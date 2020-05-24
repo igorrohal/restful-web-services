@@ -1,4 +1,4 @@
-package com.irohal.rest.webservices.restfulwebservices;
+package com.irohal.rest.webservices.restfulwebservices.helloworld;
 
 import javax.swing.text.AsyncBoxView;
 
