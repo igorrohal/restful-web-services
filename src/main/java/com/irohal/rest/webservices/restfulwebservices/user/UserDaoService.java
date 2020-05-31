@@ -24,7 +24,7 @@ public class UserDaoService {
         return users;
     }
 
-    public User save(User user) {
+    public User saveUser(User user) {
         if (user.getId() == null) {
             user.setId(++usersCount);
         }
@@ -39,6 +39,14 @@ public class UserDaoService {
             }
         }
         return null;
+    }
+
+    public Post savePost(User user, Post post) {
+        post.setId(user.getPostsIdGenerator());
+        post.setCreated(new Date());
+        user.setPostsIdGenerator(user.getPostsIdGenerator() + 1);
+        user.getPosts().add(post);
+        return post;
     }
 
 }
