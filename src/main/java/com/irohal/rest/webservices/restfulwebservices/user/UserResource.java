@@ -1,10 +1,15 @@
 package com.irohal.rest.webservices.restfulwebservices.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -23,20 +28,37 @@ public class UserResource {
 
     // retrieve single user
     @GetMapping("/users/{id}")
-    public User retrieveUser(@PathVariable Integer id) {
+    public EntityModel<User> retrieveUser(@PathVariable Integer id) {
         final User user = service.findOne(id);
         if (user == null) {
             throw new UserNotFoundException("id=" + id);
         }
-        return user;
+
+        final EntityModel<User> userHateoasResource = EntityModel.of(user,
+                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserResource.class).retrieveAllUsers())
+                        .withRel("all-users"));
+
+        return userHateoasResource;
     }
 
     // create new user
     @PostMapping("/users")
-    public ResponseEntity createUser(@RequestBody User user) {
+    public ResponseEntity createUser(@Valid @RequestBody User user) {
         final User createdUser = service.saveUser(user);
         final URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build(createdUser.getId());
         return ResponseEntity.created(location).build();
+    }
+
+    // delete user
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity deleteUser(@PathVariable Integer id) {
+        final User user = service.deleteUser(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("id=" + id);
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
     // retrieve all user's posts

@@ -2,6 +2,7 @@ package com.irohal.rest.webservices.restfulwebservices.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ public class User {
 
     private Integer id;
 
+    @Size(min=2, message = "User should be at least 2 chars long")
     private String name;
 
     private Date birthDate;
@@ -19,6 +21,9 @@ public class User {
 
     @JsonIgnore
     private int postsIdGenerator = 1;
+
+    public User() {
+    }
 
     public User(Integer id, String name, Date birthDate) {
         this(id, name, birthDate, new ArrayList<>());
