@@ -1,17 +1,21 @@
 package com.irohal.rest.webservices.restfulwebservices.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@ApiModel(description = "All details about a user")
 public class User {
 
     private Integer id;
 
-    @Size(min=2, message = "User should be at least 2 chars long")
+    @Size(min=2, message = "User name should be at least 2 chars long")
+    @ApiModelProperty(notes = "User name should be at least 2 chars long")
     private String name;
 
     private Date birthDate;
