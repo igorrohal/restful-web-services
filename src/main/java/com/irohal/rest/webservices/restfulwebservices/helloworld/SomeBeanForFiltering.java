@@ -3,12 +3,12 @@ package com.irohal.rest.webservices.restfulwebservices.helloworld;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties("field1")
+// @JsonIgnoreProperties("field1") // static filtering, not so good, as fields are hardcoded :/
 public class SomeBeanForFiltering {
 
     private String field1;
     private String field2;
-    @JsonIgnore // in addition to what's already ignore by @JsonIgnoreProperties
+    @JsonIgnore // in addition to what's already ignore by @JsonIgnoreProperties, better, as fields not hardcoded
     private String field3;
 
     public SomeBeanForFiltering(String field1, String field2, String field3) {
