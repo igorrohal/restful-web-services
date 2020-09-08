@@ -21,12 +21,7 @@ public class FilteringController {
     public MappingJacksonValue filtering() {
         final SomeBeanForFiltering someBean = new SomeBeanForFiltering("value1", "value2", "value3");
 
-        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field1", "field2");
-        final FilterProvider filters = new SimpleFilterProvider().addFilter("SomeBeanFilter", filter);
-
-        final MappingJacksonValue mapping = new MappingJacksonValue(someBean);
-        mapping.setFilters(filters);
-
+        final MappingJacksonValue mapping = mappingFilter(someBean, "field1", "field2");
         return mapping;
     }
 
@@ -36,12 +31,16 @@ public class FilteringController {
                 new SomeBeanForFiltering("1.1", "1.2", "1.3"),
                 new SomeBeanForFiltering("1.1", "1.2", "1.3"));
 
-        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field3");
+        final MappingJacksonValue mapping = mappingFilter(someBeans, "field3");
+        return mapping;
+    }
+
+    private MappingJacksonValue mappingFilter(final Object object, final String... fields) {
+        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(fields);
         final FilterProvider filters = new SimpleFilterProvider().addFilter("SomeBeanFilter", filter);
 
-        final MappingJacksonValue mapping = new MappingJacksonValue(someBeans);
+        final MappingJacksonValue mapping = new MappingJacksonValue(object);
         mapping.setFilters(filters);
-
         return mapping;
     }
 
