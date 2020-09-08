@@ -1,12 +1,14 @@
 package com.irohal.rest.webservices.restfulwebservices.helloworld;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties("field1")
 public class SomeBeanForFiltering {
 
     private String field1;
     private String field2;
-    @JsonIgnore
+    @JsonIgnore // in addition to what's already ignore by @JsonIgnoreProperties
     private String field3;
 
     public SomeBeanForFiltering(String field1, String field2, String field3) {
