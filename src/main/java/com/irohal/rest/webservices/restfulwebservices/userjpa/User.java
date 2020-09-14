@@ -1,17 +1,23 @@
-package com.irohal.rest.webservices.restfulwebservices.user;
+package com.irohal.rest.webservices.restfulwebservices.userjpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.irohal.rest.webservices.restfulwebservices.user.Post;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @ApiModel(description = "All details about a user")
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue
     private Integer id;
 
     @Size(min = 2, message = "User name should be at least 2 chars long")
@@ -19,12 +25,6 @@ public class User {
     private String name;
 
     private Date birthDate;
-
-    @JsonIgnore
-    private List<Post> posts;
-
-    @JsonIgnore
-    private int postsIdGenerator = 1;
 
     public User() {
     }
@@ -37,7 +37,6 @@ public class User {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
-        this.posts = posts;
     }
 
     public Integer getId() {
@@ -62,22 +61,6 @@ public class User {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public int getPostsIdGenerator() {
-        return postsIdGenerator;
-    }
-
-    public void setPostsIdGenerator(int postsIdGenerator) {
-        this.postsIdGenerator = postsIdGenerator;
     }
 
 }
