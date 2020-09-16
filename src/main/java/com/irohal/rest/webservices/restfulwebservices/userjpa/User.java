@@ -1,14 +1,10 @@
 package com.irohal.rest.webservices.restfulwebservices.userjpa;
 
-import com.irohal.rest.webservices.restfulwebservices.user.Post;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,18 +22,8 @@ public class User {
 
     private Date birthDate;
 
-    public User() {
-    }
-
-    public User(Integer id, String name, Date birthDate) {
-        this(id, name, birthDate, new ArrayList<>());
-    }
-
-    public User(Integer id, String name, Date birthDate, List<Post> posts) {
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 
     public Integer getId() {
         return id;
@@ -63,4 +49,21 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", posts=" + posts +
+                '}';
+    }
 }
